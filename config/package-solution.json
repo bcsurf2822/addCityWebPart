@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "weather-report-client-side-solution",
+    "id": "12dc3fdf-b446-494a-824a-45676f00d723",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "weather-report description"
+      },
+      "longDescription": {
+        "default": "weather-report description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "weather-report Feature",
+        "description": "The feature that activates elements of the weather-report solution.",
+        "id": "a6e6a6b1-45fd-4745-b880-3b1be9eafa5f",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/weather-report.sppkg"
+  }
+}
