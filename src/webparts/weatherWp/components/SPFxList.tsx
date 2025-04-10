@@ -25,7 +25,6 @@ const SPFxList: React.FC<SPFxListProps> = ({
   onAddedLocation,
 }) => {
   const [items, setItems] = useState<ListItem[]>([]);
-  const [title, setTitle] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,10 +50,6 @@ const SPFxList: React.FC<SPFxListProps> = ({
 
   const createItem = async (locationToAdd: IAddedLocation): Promise<void> => {
     console.log("Create item called with locationToAdd", locationToAdd);
-    if (!title) {
-      alert("Title is required!");
-      return;
-    }
 
     if (
       !locationToAdd ||
@@ -79,7 +74,6 @@ const SPFxList: React.FC<SPFxListProps> = ({
         City: locationToAdd.city,
       });
       alert("Item created successfully!");
-      setTitle("");
       await fetchListItems();
     } catch (error) {
       setError("Failed to create item. Please try again.");
