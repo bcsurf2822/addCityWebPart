@@ -6,6 +6,8 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import { getSP } from "../pnpConfig";
 import { IAddedLocation } from "./IMapState";
+import styles from "./SPFxList.module.scss";
+
 interface ListItem {
   Id: number;
   Title: string;
@@ -83,15 +85,29 @@ const SPFxList: React.FC<SPFxListProps> = ({
     }
   };
 
-  //   const deleteItem = async (id: number): Promise<void> => {
-  //     try {
-  //       await sp.web.lists.getByTitle(listName).items.getById(id).delete();
-  //       alert("Item deleted successfully!");
-  //     } catch (error) {
-  //       setError("Failed to delete item. Please try again.");
-  //       console.error("Delete Item Error: ", error);
-  //     }
-  //   };
+  const deleteItem = async (id: number): Promise<void> => {
+    try {
+      await sp.web.lists.getByTitle(listName).items.getById(id).delete();
+      alert("Item deleted successfully!");
+    } catch (error) {
+      setError("Failed to delete item. Please try again.");
+      console.error("Delete Item Error: ", error);
+    }
+  };
+
+  const handleDeleteItem = async (id: number): Promise<void> => {
+    if (window.confirm("Are you sure you want to delete this location?")) {
+      setLoading(true);
+      try {
+        await deleteItem(id);
+        await fetchListItems();
+      } catch (error) {
+        console.error("Error handling delete:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
 
   useEffect(() => {
     fetchListItems().catch((error) => {
@@ -122,16 +138,34 @@ const SPFxList: React.FC<SPFxListProps> = ({
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h1>List Items</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Available Locations</h1>
 
-      <ul>
-        {items.map((item) => (
-          <li key={item.Id}>
-            {item.Title} - {item.State} - {item.City}
-          </li>
-        ))}
-      </ul>
+      {items.length === 0 ? (
+        <p>No locations found. Add a location from the map.</p>
+      ) : (
+        <ul className={styles.locationsList}>
+          {items.map((item) => (
+            <li key={item.Id} className={styles.locationItem}>
+              <div className={styles.locationDetails}>
+                <span>
+                  <strong>{item.Title}</strong>
+                </span>
+                <span>
+                  {item.City}, {item.State}
+                </span>
+              </div>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDeleteItem(item.Id)}
+                aria-label={`Delete ${item.Title}`}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

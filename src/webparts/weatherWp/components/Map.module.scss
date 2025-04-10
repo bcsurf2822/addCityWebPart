@@ -1,0 +1,52 @@
+.mapContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #444;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 20px 0;
+}
+
+.locationDetails {
+  background-color: white;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.locationProperty {
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.propertyLabel {
+  font-weight: 600;
+  margin-right: 8px;
+  min-width: 120px;
+}
+
+.buttonContainer {
+  margin-top: 20px;
+}

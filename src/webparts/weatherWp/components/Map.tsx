@@ -7,6 +7,8 @@ import { IMapProps } from "./IMapProps";
 import * as React from "react";
 import { normalizeStateNames } from "../utils/stateNormalizer";
 import { PrimaryButton } from "@fluentui/react/lib/Button";
+import styles from "./Map.module.scss";
+
 export default class Map extends React.Component<IMapProps, IMapState> {
   constructor(props: IMapProps) {
     super(props);
@@ -86,8 +88,8 @@ export default class Map extends React.Component<IMapProps, IMapState> {
       : "N/A";
 
     return (
-      <div>
-        <h2>Add A Location To List</h2>
+      <div className={styles.mapContainer}>
+        <h2 className={styles.title}>Add A Location To List</h2>
         <LocationPicker
           context={this.props.context}
           label="Search for a location"
@@ -95,32 +97,33 @@ export default class Map extends React.Component<IMapProps, IMapState> {
           onChange={this._onLocationChange}
           errorMessage={errorMessage}
         />
-        <hr />
-        <h3>Selected Location Details:</h3>
+        <hr className={styles.divider} />
+        <h3 className={styles.subtitle}>Selected Location Details:</h3>
 
         {selectedLocation ? (
-          <div>
-            <p>
-              <strong>Display Name:</strong> {selectedLocation.DisplayName}
+          <div className={styles.locationDetails}>
+            <p className={styles.locationProperty}>
+              <span className={styles.propertyLabel}>Display Name:</span>
+              <span>{selectedLocation.DisplayName}</span>
             </p>
 
             {selectedLocation.Address && (
               <>
-                <p>
-                  <strong>Street:</strong>{" "}
-                  {selectedLocation.Address.Street || "N/A"}
+                <p className={styles.locationProperty}>
+                  <span className={styles.propertyLabel}>Street:</span>
+                  <span>{selectedLocation.Address.Street || "N/A"}</span>
                 </p>
-                <p>
-                  <strong>City:</strong>{" "}
-                  {selectedLocation.Address.City || "N/A"}
+                <p className={styles.locationProperty}>
+                  <span className={styles.propertyLabel}>City:</span>
+                  <span>{selectedLocation.Address.City || "N/A"}</span>
                 </p>
-                <p>
-                  <strong>State/Province:</strong>{" "}
-                  {selectedLocation.Address.State || "N/A"}
+                <p className={styles.locationProperty}>
+                  <span className={styles.propertyLabel}>State/Province:</span>
+                  <span>{selectedLocation.Address.State || "N/A"}</span>
                 </p>
               </>
             )}
-            <div style={{ marginTop: "15px" }}>
+            <div className={styles.buttonContainer}>
               <PrimaryButton
                 text="Add Location"
                 onClick={this._addLocationToList}
