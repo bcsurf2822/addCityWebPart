@@ -1,5 +1,4 @@
 .container {
-  margin: 20px;
   padding: 15px;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -9,9 +8,10 @@
 .title {
   font-size: 1.5rem;
   margin-bottom: 15px;
-  color: #333;
+  color: #000000;
   border-bottom: 1px solid #ddd;
   padding-bottom: 10px;
+  font-weight: 600;
 }
 
 .locationsList {
@@ -24,7 +24,7 @@
   padding: 12px 15px;
   margin-bottom: 8px;
   background-color: white;
-  border-left: 4px solid #0078d4;
+
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   display: flex;
@@ -39,7 +39,17 @@
 
 .locationDetails {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
+
+  span {
+    color: #000000;
+
+    strong {
+      font-weight: 600;
+      color: #000000;
+    }
+  }
 }
 
 .deleteButton {
@@ -48,6 +58,7 @@
   border: none;
   cursor: pointer;
   padding: 5px;
+  font-weight: 500;
 
   &:hover {
     color: #a80000;

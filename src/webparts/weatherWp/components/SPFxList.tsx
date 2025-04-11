@@ -131,7 +131,7 @@ const SPFxList: React.FC<SPFxListProps> = ({
 
           onAddedLocation();
 
-          await fetchListItems(); 
+          await fetchListItems();
         })
         .catch((err) => {
           console.error("useEffect createItem Error caught: ", err);
@@ -157,10 +157,9 @@ const SPFxList: React.FC<SPFxListProps> = ({
             <li key={item.Id} className={styles.locationItem}>
               <div className={styles.locationDetails}>
                 <span>
-                  <strong>{item.Title}</strong>
-                </span>
-                <span>
-                  {item.City}, {item.State}
+                  <strong>
+                    {item.City}, {item.State}
+                  </strong>
                 </span>
               </div>
               <button
