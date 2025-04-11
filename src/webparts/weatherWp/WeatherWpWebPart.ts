@@ -9,21 +9,50 @@ import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "WeatherWpWebPartStrings";
-import WeatherWp from "./components/WeatherWp";
+import LocationListAndMap from "./components/WeatherWp";
 import { IWeatherWpProps } from "./components/IWeatherWpProps";
 import { initializePnP } from "./pnpConfig";
+
+import { IDynamicDataSource, IDynamicDataPropertyDefinition } from '@microsoft/sp-dynamic-data';
+
 
 export interface IWeatherWpWebPartProps {
   description: string;
 }
 
-export default class WeatherWpWebPart extends BaseClientSideWebPart<IWeatherWpWebPartProps> {
+export default class WeatherWpWebPart extends BaseClientSideWebPart<IWeatherWpWebPartProps> implements IDynamicDataSource {
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = "";
 
+  private _dataVersion: number = 0; // Or another way to track updates
+
+  // *** Add IDynamicDataSource methods ***
+  public getPropertyDefinitions(): ReadonlyArray<IDynamicDataPropertyDefinition> {
+    return [{
+        id: 'citiesUpdated', // Choose a unique, descriptive ID
+        title: 'Cities List Updated Notification'
+    }];
+  }
+
+  public getPropertyValue(propertyId: string): any {
+    switch (propertyId) {
+        case 'citiesUpdated':
+            return this._dataVersion; // Return timestamp or version number
+    }
+    throw new Error('Unknown property id');
+  }
+
+  private _handleCityAdded = (): void => {
+    console.log("WeatherWpWebPart: City added notification received from component.");
+    this._dataVersion++; // Update internal tracker
+    // *** Notify consumers ***
+    this.context.dynamicDataSourceManager.notifyPropertyChanged('citiesUpdated');
+    console.log("WeatherWpWebPart: Notified consumers: citiesUpdated");
+  }
+
   public render(): void {
     const element: React.ReactElement<IWeatherWpProps> = React.createElement(
-      WeatherWp,
+      LocationListAndMap,
       {
         description: this.properties.description,
         isDarkTheme: this._isDarkTheme,
@@ -31,6 +60,7 @@ export default class WeatherWpWebPart extends BaseClientSideWebPart<IWeatherWpWe
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
         context: this.context,
+        onCityAddedSuccessfully: this._handleCityAdded,
       }
     );
 

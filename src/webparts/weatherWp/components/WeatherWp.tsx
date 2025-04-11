@@ -5,7 +5,7 @@ import Map from "./Map";
 import { useState } from "react";
 import { IAddedLocation } from "./IMapState";
 
-const WeatherWp: React.FC<IWeatherWpProps> = (props) => {
+const LocationListAndMap: React.FC<IWeatherWpProps> = (props) => {
   const { context } = props;
 
   const [locationToAdd, setLocationToAdd] = useState<
@@ -21,20 +21,23 @@ const WeatherWp: React.FC<IWeatherWpProps> = (props) => {
   };
 
   return (
-    <section>
-      <Map
-        context={context}
-        description="Select a location using the picker:"
-        onLocationSelected={handleLocationSelected}
-      />
-      <hr style={{ margin: "20px 0" }} />
-      <SPFxList
-        listName="Cities"
-        locationToAdd={locationToAdd}
-        onAddedLocation={handleAddedLocation}
-      />
+    <section style={{ display: "flex", gap: "20px" }}>
+      <div style={{ flex: 1 }}>
+        <Map
+          context={context}
+          description="Select a location using the picker:"
+          onLocationSelected={handleLocationSelected}
+        />
+      </div>
+      <div style={{ flex: 1 }}>
+        <SPFxList
+          listName="Cities"
+          locationToAdd={locationToAdd}
+          onAddedLocation={handleAddedLocation}
+        />
+      </div>
     </section>
   );
 };
 
-export default WeatherWp;
+export default LocationListAndMap;
