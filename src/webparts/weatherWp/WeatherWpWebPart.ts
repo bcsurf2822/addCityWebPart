@@ -31,7 +31,7 @@ export default class WeatherWpWebPart
   public getPropertyDefinitionsAsync(): Promise<
     ReadonlyArray<IDynamicDataPropertyDefinition>
   > {
-    // Return the synchronous definitions wrapped in a resolved Promise
+
     console.warn(
       "getPropertyDefinitionsAsync called but not implemented; returning sync definitions."
     );
@@ -39,43 +39,37 @@ export default class WeatherWpWebPart
   }
 
   public getPropertyValueAsync(propertyId: string): Promise<number> {
-    // Return the synchronous value wrapped in a resolved Promise
     console.warn(
       `getPropertyValueAsync called for ${propertyId} but not implemented; returning sync value.`
     );
     try {
       return Promise.resolve(this.getPropertyValue(propertyId));
     } catch (error) {
-      return Promise.reject(error); // Propagate sync errors correctly
+      return Promise.reject(error); 
     }
   }
 
   public getAnnotatedPropertyValueAsync(
     propertyId: string
   ): Promise<IDynamicDataAnnotatedPropertyValue> {
-    // Indicate annotated value is not supported by returning a minimal object
-    // including all REQUIRED properties according to the error message.
+   
     console.warn(
       `getAnnotatedPropertyValueAsync called for ${propertyId} but not implemented.`
     );
-    // Return an object satisfying the required structure
     return Promise.resolve({
       value: undefined,
-      sampleValue: undefined, // Add the required sampleValue
+      sampleValue: undefined,
     });
   }
 
   public getAnnotatedPropertyValue(
     propertyId: string
   ): IDynamicDataAnnotatedPropertyValue {
-    // Indicate annotated value is not supported by returning a minimal object
-    // including all REQUIRED properties according to the error message.
     console.warn(
       `getAnnotatedPropertyValue called for ${propertyId} but not implemented.`
     );
-    // Return an object satisfying the required structure
     return {
-      sampleValue: undefined, // Add the required sampleValue
+      sampleValue: undefined,
     };
   }
   private _isDarkTheme: boolean = false;
@@ -88,19 +82,15 @@ export default class WeatherWpWebPart
   }
 
   public get metadata(): IDynamicDataSourceMetadata {
-    // Return metadata about your data source
     return {
-      // Use a title that helps users identify this source when connecting web parts
       title: "City List Provider",
-      // You can add other metadata properties if needed
     };
   }
 
-  // *** Add IDynamicDataSource methods ***
   public getPropertyDefinitions(): ReadonlyArray<IDynamicDataPropertyDefinition> {
     return [
       {
-        id: "citiesUpdated", // Choose a unique, descriptive ID
+        id: "citiesUpdated", 
         title: "Cities List Updated Notification",
       },
     ];
@@ -109,7 +99,7 @@ export default class WeatherWpWebPart
   public getPropertyValue(propertyId: string): number {
     switch (propertyId) {
       case "citiesUpdated":
-        return this._dataVersion; // Return timestamp or version number
+        return this._dataVersion; 
     }
     throw new Error("Unknown property id");
   }
@@ -118,8 +108,7 @@ export default class WeatherWpWebPart
     console.log(
       "WeatherWpWebPart: City added notification received from component."
     );
-    this._dataVersion++; // Update internal tracker
-    // *** Notify consumers ***
+    this._dataVersion++;
     this.context.dynamicDataSourceManager.notifyPropertyChanged(
       "citiesUpdated"
     );
@@ -143,32 +132,34 @@ export default class WeatherWpWebPart
     ReactDom.render(element, this.domElement);
   }
 
-  protected onInit(): Promise<void> {
+  protected async onInit(): Promise<void> {
     initializePnP(this.context);
-    return this._getEnvironmentMessage().then((message) => {
-      this._environmentMessage = message;
-    });
+
+    this.context.dynamicDataSourceManager.initializeSource(this);
+    console.log("Provider: Dynamic Data Source Initialized in onInit.");
+
+    const message = await this._getEnvironmentMessage();
+    this._environmentMessage = message;
   }
 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) {
-      // running in Teams, office.com or Outlook
       return this.context.sdks.microsoftTeams.teamsJs.app
         .getContext()
         .then((context) => {
           let environmentMessage: string = "";
           switch (context.app.host.name) {
-            case "Office": // running in Office
+            case "Office": 
               environmentMessage = this.context.isServedFromLocalhost
                 ? strings.AppLocalEnvironmentOffice
                 : strings.AppOfficeEnvironment;
               break;
-            case "Outlook": // running in Outlook
+            case "Outlook": 
               environmentMessage = this.context.isServedFromLocalhost
                 ? strings.AppLocalEnvironmentOutlook
                 : strings.AppOutlookEnvironment;
               break;
-            case "Teams": // running in Teams
+            case "Teams": 
             case "TeamsModern":
               environmentMessage = this.context.isServedFromLocalhost
                 ? strings.AppLocalEnvironmentTeams

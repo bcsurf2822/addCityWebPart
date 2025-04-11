@@ -131,7 +131,7 @@ const SPFxList: React.FC<SPFxListProps> = ({
 
           onAddedLocation();
 
-          await fetchListItems(); // Await the fetch after success
+          await fetchListItems(); 
         })
         .catch((err) => {
           console.error("useEffect createItem Error caught: ", err);

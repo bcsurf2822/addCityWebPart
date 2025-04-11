@@ -32,7 +32,6 @@ export default class Map extends React.Component<IMapProps, IMapState> {
       );
       this.setState({ selectedLocation: location, errorMessage: undefined });
     } else {
-      // Location was cleared (e.g., user deleted input)
       console.log("Location Cleared");
       this.setState({ selectedLocation: undefined, errorMessage: undefined });
     }

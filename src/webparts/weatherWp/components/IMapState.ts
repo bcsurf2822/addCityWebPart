@@ -9,5 +9,4 @@ export interface IAddedLocation {
 export interface IMapState {
   selectedLocation: ILocationPickerItem | undefined;
   errorMessage?: string;
-  //   addedLocation: IAddedLocation | null;
 }
