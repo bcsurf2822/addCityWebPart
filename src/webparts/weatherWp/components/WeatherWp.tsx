@@ -6,7 +6,7 @@ import { useState } from "react";
 import { IAddedLocation } from "./IMapState";
 
 const LocationListAndMap: React.FC<IWeatherWpProps> = (props) => {
-  const { context } = props;
+  const { context, onCityAddedSuccessfully } = props;
 
   const [locationToAdd, setLocationToAdd] = useState<
     IAddedLocation | undefined
@@ -34,6 +34,7 @@ const LocationListAndMap: React.FC<IWeatherWpProps> = (props) => {
           listName="Cities"
           locationToAdd={locationToAdd}
           onAddedLocation={handleAddedLocation}
+          onCityAddedSuccessfully={onCityAddedSuccessfully}
         />
       </div>
     </section>

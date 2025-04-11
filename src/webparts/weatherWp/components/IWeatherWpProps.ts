@@ -7,4 +7,5 @@ export interface IWeatherWpProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   context: WebPartContext;
+  onCityAddedSuccessfully: () => void;
 }

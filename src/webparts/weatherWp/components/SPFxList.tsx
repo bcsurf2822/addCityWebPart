@@ -19,12 +19,14 @@ interface SPFxListProps {
   listName: string;
   locationToAdd: IAddedLocation | undefined;
   onAddedLocation: () => void;
+  onCityAddedSuccessfully: () => void;
 }
 
 const SPFxList: React.FC<SPFxListProps> = ({
   listName,
   locationToAdd,
   onAddedLocation,
+  onCityAddedSuccessfully,
 }) => {
   const [items, setItems] = useState<ListItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -122,14 +124,20 @@ const SPFxList: React.FC<SPFxListProps> = ({
       setError(null);
 
       createItem(locationToAdd)
-        .then(() => {
-          console.log("Item created successfully");
+        .then(async () => {
+          console.log("createItem promise resolved successfully.");
+
+          onCityAddedSuccessfully();
+
           onAddedLocation();
-          return fetchListItems();
+
+          await fetchListItems(); // Await the fetch after success
         })
-        .catch((error) => {
-          setError("Error creating item");
-          console.error("Create Item Error: ", error);
+        .catch((err) => {
+          console.error("useEffect createItem Error caught: ", err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [locationToAdd]);
